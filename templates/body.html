@@ -1,0 +1,36 @@
+<body>
+	<p> 
+		APP para Escolas
+	</p> 
+	<input type='text' id="nome_aluno" />
+	<button id='btn_salvar_aluno'>Salvar</button>
+	<p id='paragrafo_alunos'>
+	
+	</p>
+	
+</body>
+
+<script>
+	$( document ).ready(function() {
+			
+		// ao clicar no botão
+		$('#btn_salvar_aluno').on( "click", function(){
+		
+			$.ajax({
+				url: '/salvar_aluno',
+				type: 'POST',
+				data: JSON.stringify({nome: $('#nome_aluno').val()}),
+				contentType: "application/json",
+				dataType: "json",
+			})
+		
+		});
+		//LEITURA DOS DADOS
+			$.ajax({
+				url: '/ler_todos_alunos',
+				type: 'POST'
+			}).done(function (dados){
+				alert(dados.dados)
+			})
+	});
+</script>
