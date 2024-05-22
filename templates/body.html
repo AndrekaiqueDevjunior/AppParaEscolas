@@ -4,9 +4,9 @@
 	</p> 
 	<input type='text' id="nome_aluno" />
 	<button id='btn_salvar_aluno'>Salvar</button>
-	<p id='paragrafo_alunos'>
+	<div id='paragrafo_alunos'>
 	
-	</p>
+	</div>
 	
 </body>
 
@@ -29,8 +29,13 @@
 			$.ajax({
 				url: '/ler_todos_alunos',
 				type: 'POST'
-			}).done(function (dados){
-				alert(dados.dados)
+			}).done(function (retorno){
+				
+				var dados = (retorno.dados)
+				dados.forEach((item) => {
+					$('#paragrafo_alunos').append(item)
+					$('#paragrafo_alunos').append('<br>')
+				})
 			})
 	});
 </script>

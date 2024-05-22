@@ -32,6 +32,6 @@ def ler_todos_alunos():
     
     
     conn.close()
-    return jsonify(dados=dados)
+    return jsonify(dados=dados, msg="Andre")
 
 app.run(debug=True)
