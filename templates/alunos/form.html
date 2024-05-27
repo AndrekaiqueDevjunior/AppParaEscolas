@@ -1,74 +1,131 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulário do Aluno</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-</head>
-<body class='container-fluid'>
-    <div class='row'>
-        <div class='col'>
-            <h1>Formulário do Aluno</h1>
-        </div>
-    </div>
-
-    <div id='form_aluno'>
-        <!-- Campos serão adicionados aqui -->
-    </div>
-
-    <script>
-        function gera_input(item) {
-            var row = document.createElement('div');
-            row.className = 'row mt-1';
-
-            var col = document.createElement('div');
-            col.className = 'col';
-
-            var label = document.createElement('label');
-            label.innerHTML = item.label_innerHTML;
-
-            var input = document.createElement('input');
-            input.type = item.type
-            input.className = 'form-control';
-
-            col.appendChild(label);
-            col.appendChild(input);
-            row.appendChild(col);
-
-            $('#form_aluno').append(row);
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+        .sticky_element {
+            position: -webkit-sticky;
+            position: sticky;
+            top: 0;
         }
+        body.dark-mode {
+            background-color: #121212;
+            color: white;
+        }
+        .dark-mode .form-control {
+            background-color: #333;
+            color: white;
+        }
+    </style>
+</head>
+<body>
 
-        $(document).ready(function () {
-            var meus_inputs = [
-                {
-					label_innerHTML: 'Nome',
-					type: 'text'
-				},
-                {
-					label_innerHTML: 'Sobrenome',
-					type: 'text'
-				},
-				{
-					label_innerHTML: 'Nome do Pai',
-					type: 'text'
-				},
-				{
-					label_innerHTML: 'Nome da Mãe',
-					type: 'text'
-				},
-				{
-					label_innerHTML: 'Data de Nascimento',
-					type: 'date'
-				
-				}
-            ];
+<div class='row sticky_element bg-white pt-2 mt-2 mb-2'>
+    <div class='col'>
+        <h1>Formulário do Aluno</h1>
+    </div>
+</div>
 
-            meus_inputs.forEach(function(item) {
-                gera_input(item);
-            });
+<div class='row mt-1'>
+    <div class='col'>
+        <h5>Dados Gerais</h5>
+    </div>
+</div>
+
+<div class='row border-top'>
+    <div class='col'>
+        &nbsp;
+    </div>
+</div>
+
+<div id='form_aluno_parte1'></div>
+
+<div class='row mt-2'>
+    <div class='col'>
+        <h5>Endereço</h5>
+    </div>
+</div>
+
+<div class='row border-top'>
+    <div class='col'>
+        &nbsp;
+    </div>
+</div>
+
+<div id='form_aluno_parte2'></div>
+
+<div class='row mt-2'>
+    <div class='col'>
+        <button id="toggleButton" class="btn btn-primary">Alternar Modo Escuro</button>
+    </div>
+</div>
+
+<div class='row border-top'>
+    <div class='col'>
+        &nbsp;
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script>
+    function gera_input(item, parent) {
+        var row = document.createElement('div');
+        row.className = 'row mt-1';
+
+        var col = document.createElement('div');
+        col.className = 'col';
+
+        var label = document.createElement('label');
+        label.innerHTML = item.label_innerHTML;
+
+        var input = document.createElement('input');
+        input.type = item.type;
+        input.className = 'form-control';
+
+        col.appendChild(label);
+        col.appendChild(input);
+        row.appendChild(col);
+
+        $(parent).append(row);
+    }
+
+    $(document).ready(function () {
+        var meus_inputs_parte1 = [
+            { label_innerHTML: 'Nome', type: 'text' },
+            { label_innerHTML: 'Sobrenome', type: 'text' },
+            { label_innerHTML: 'Nome do Pai', type: 'text' },
+            { label_innerHTML: 'Nome da Mãe', type: 'text' },
+            { label_innerHTML: 'Data de Nascimento', type: 'date' },
+            { label_innerHTML: 'Telefone', type: 'text' },
+            { label_innerHTML: 'CPF', type: 'text' },
+            { label_innerHTML: 'RG', type: 'text' }
+        ];
+
+        meus_inputs_parte1.forEach(function(item) {
+            gera_input(item, '#form_aluno_parte1');
         });
-    </script>
+
+        var meus_inputs_parte2 = [
+            { label_innerHTML: 'Logradouro', type: 'text' },
+            { label_innerHTML: 'Rua', type: 'text' },
+            { label_innerHTML: 'Bairro', type: 'text' },
+            { label_innerHTML: 'Cidade', type: 'text' },
+            { label_innerHTML: 'Estado', type: 'text' },
+            { label_innerHTML: 'CEP', type: 'text' }
+        ];
+
+        meus_inputs_parte2.forEach(function(item) {
+            gera_input(item, '#form_aluno_parte2');
+        });
+
+        $('#toggleButton').click(function () {
+            $('body').toggleClass('dark-mode');
+        });
+    });
+</script>
+
 </body>
 </html>
