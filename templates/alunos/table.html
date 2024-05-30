@@ -1,0 +1,78 @@
+<!-- <div class='row sticky_element bg-white pt-2 mt-2 mb-2'>
+    <div class='col'>
+        <h1>
+        </h1>
+    </div>
+</div> -->
+
+<div class="row mt-2">
+    <div class="col">
+        <table class="table">
+            <thead class="sticky_element bg-white">
+                <tr>
+                    <th style="text-align: center;">Tabela dos Alunos</th>
+                </tr>
+            </thead>
+            <tbody id="tbody_aluno"></tbody>
+        </table>
+    </div>
+</div>
+<script>
+	function  alterar_aluno(id_clicado){
+		$.ajax({
+                url: '/ler_aluno_especifico',
+                type: 'POST',
+                data: JSON.stringify({id: id_clicado}),
+                contentType: "application/json",
+                dataType: "json",
+            }).done(function(data) {
+				capta_e_direciona_dados(data)
+                navegar_table_para_form_aluno()     
+            })
+	}
+	function capta_e_direciona_dados(data){
+				var dados_para_escrever = data.dados
+				var cabecalho = data.cabecalho
+				var input_aluno = document.querySelectorAll('.input_aluno')
+
+			cabecalho.forEach((item, index) => {
+				input.aluno.forEach((item_2, index_2) => {
+					if(item_2.name == item[1]){
+						item_2.value =	dados_para_escrever[index]	
+				}
+			})
+		})
+
+}
+	
+	
+    $(document).ready(function(){
+	//LEITURA DOS DADOS
+        $.ajax({
+            url: '/ler_todos_alunos',
+            type: 'POST'
+        }).done(function(retorno){
+            var dados = retorno.dados;
+            dados.forEach((item) => {
+                console.log(item);
+
+                var tr = document.createElement('tr');
+				
+				tr.onclick = () => {
+					navegar_table_para_form_aluno()
+					alterar_aluno(item[0])
+				
+				}
+
+                var td = document.createElement('td');
+                var string_celula = "Nome: " + item[1] + "<br>";
+                string_celula += "Sobrenome: " + item[2] + "<br>";
+                string_celula += "CPF: " + item[7];
+
+                td.innerHTML = string_celula;
+                tr.appendChild(td);
+                $('#tbody_aluno').append(tr);
+            });
+        });
+    });
+</script>

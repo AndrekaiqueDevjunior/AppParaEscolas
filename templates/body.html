@@ -1,19 +1,35 @@
 <body class ='container-fluid'>
 	<div class='row' id='main'>
-		<div class='col' class='form_aluno'>
+		<div class='col form_aluno'>
 		{%include 'alunos/form.html' %}
+		</div>
+		
+		<div class='col table_aluno'>
+		{%include 'alunos/table.html' %}
 		</div>
 		
 	</div>
 	<div class='row' id='footer'>
-		<div class='col' class='form_aluno'>
-		{%include 'alunos/form_footer.html' %}
+		<div class='col form_aluno'>
+			{%include 'alunos/form_footer.html' %}
 		</div>
-		<!-- </div>
-		{%include 'navegacao_inicio/navegacao_footer.html' %} -->
+		
+		<div class='col table_aluno'>
+			{%include 'alunos/table_footer.html' %}
+		</div>
+		
 	</div>
 </body> 
 <style>
+	
+	.form_aluno{
+		display: none;	
+	}
+	
+	.table_aluno{
+		display: block;
+	}
+	
 	body{
 		overflow-y: hidden;	
 	}
@@ -23,6 +39,7 @@
 	}
 	#footer{	
 		height: 10dvh;
-		border-top: 0.5px solid black;
+		background-color: white;
+		border-top: 0.5px solid #ccc;
 	}	
 </style>
