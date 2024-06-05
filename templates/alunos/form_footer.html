@@ -22,44 +22,35 @@
             <button 
 					id='btn_salvar_aluno'
 					class='btn btn-outline-primary w-100 h-100'
-					onclick='salva_aluno()'
+					onclick='salva_aluno()'>
                 Salvar
             </button>
+
         </div>
     </div>
 
     <script>
-        function navegarFormParaTableAluno() {
-            $('.form_aluno').hide();
-            $('.table_aluno').show();
-        }
+    function salvaAluno() {
+        $('#btn_salvar_aluno').hide();
+        $('#btn_salvando_aluno').show();
 
-        function salvaAluno() {
-            $('#btn_salvar_aluno').hide();
-            $('#btn_salvando_aluno').show();
+        var inputAluno = document.querySelectorAll('.input_aluno');
+        var objParaLancar = {};
 
-            var inputAluno = document.querySelectorAll('.input_aluno');
-            var objParaLancar = {};
+        inputAluno.forEach((input) => {
+            objParaLancar[input.name] = input.value;
+        });
 
-            inputAluno.forEach((input) => {
-                objParaLancar[input.name] = input.value;
-            });
-
-            $.ajax({
-                url: '/salvar_aluno',
-                type: 'POST',
-                data: JSON.stringify(objParaLancar),
-                contentType: "application/json",
-                dataType: "json"
-            }).done(function(data) {
-                $('#btn_salvar_aluno').show();
-                $('#btn_salvando_aluno').hide();
-                // Adicione aqui a lógica para o que acontece após o sucesso do salvamento, se necessário
-            });
-        }
-
-        function navegarFormAluno() {
-            $('.form_aluno').show();
-            $('.table_aluno').hide();
-        }
-    </script>
+        $.ajax({
+            url: '/salvar_aluno',
+            type: 'POST',
+            data: JSON.stringify(objParaLancar),
+            contentType: "application/json",
+            dataType: "json"
+        }).done(function(data) {
+            $('#btn_salvar_aluno').show();
+            $('#btn_salvando_aluno').hide();
+            // Adicione aqui a lógica para o que acontece após o sucesso do salvamento, se necessário
+        });
+    }
+</script>
