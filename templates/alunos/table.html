@@ -7,6 +7,15 @@
 </div> -->
 <div class='row mt-2'>
 	<div class='col'>
+		<input type="text" 
+		class="form-control" 
+		placeholder="Pesquisar" 
+		oninput="pesquisar_multiuso(this, 'tbody_aluno')" 
+		/>
+	</div>
+</div>
+<div class='row mt-2'>
+	<div class='col'>
 		<table class='table'>
 			<thead class='sticky_element bg-white'>
 				<tr>
@@ -18,6 +27,23 @@
 	</div>
 </div>
 <script>
+	function pesquisar_multuso(elemento, id_do_tbody){
+		var valor_procurado = elemento.value
+		document
+			.getElementById(id_do_tbody)
+			.querySelectorAll('tr')
+			.forEach((linha)) => {
+				var valor_de_todas_as_celulas = ''
+				linha
+				.querySelectorAll('td')
+				.forEach((celula) => {
+					valor_de_todas_as_celulas += celula.innerHTML
+					
+				})
+			})
+	
+	}
+
 	function alterar_aluno(id_clicado){
 		$.ajax({
 			url: '/ler_aluno_especifico',
