@@ -92,7 +92,7 @@
 			}
 		})
 		
-		
+		//1
 		$.ajax({
 			url: '/exclui_aluno',
 			type: 'POST',
@@ -100,8 +100,28 @@
 			contentType: "application/json",
 			dataType: "json",
 		}).done(function (data){
-			console.log(data)
+			$('#msg_confirmacao').modal('hide')
+			
+			$('#alert').modal('show')
+			$('#alert_body').html(`
+				<button class="btn btn-success w-100" >
+					Excluido com Sucesso!
+				</button>
+			`)
+			
+			setTimeout(function (){
+				$('#alert').modal('hide')
+				navegar_form_para_table_aluno()
+				gera_table_aluno()
+			}, 2000)
+			
+			
+			
+			
 		})
+		
+		//2
+		
 	}
 </script>
 
