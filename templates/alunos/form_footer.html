@@ -1,56 +1,79 @@
 <div class='row h-75 mt-2'>
-        <div class='col'>
-            <button 
-					onclick='navegarFormParaTableAluno()' 
-					class='btn btn-outline-danger w-100 h-100'>
-                Cancelar
-            </button>
-        </div>
-        <div class='col'></div>
-        <div class='col'>
-            <button 
-					id='btn_salvando_aluno'
-					class="btn btn-outline-primary"
-					style='display:none' disabled
-			>
-                <span 
-				class="spinner-grow spinner-grow-sm"
-				role="status"
-				aria-hidden="true"></span>
-                Salvando
-            </button>
-            <button 
-					id='btn_salvar_aluno'
-					class='btn btn-outline-primary w-100 h-100'
-					onclick='salva_aluno()'>
-                Salvar
-            </button>
+	<div class='col'>
+		<button
+			onclick='navegar_form_para_table_aluno()'
+			class='btn btn-outline-danger w-100 h-100'>
+			Cancelar
+		</button>
+	</div>
+	<div class='col'></div>
+	<div class='col'>
+		<button
+			id='btn_salvando_aluno'
+			class="btn btn-outline-primary"
+			style='display: none' disabled>
+		  <span
+			class="spinner-grow spinner-grow-sm"
+			role="status"
+			aria-hidden="true"></span>
+		  Salvando
+		</button>
+		
+		<button
+			id='btn_salvar_aluno'
+			class='btn btn-outline-primary w-100 h-100'
+			onclick='salva_aluno()'>
+			Salvar
+		</button>
+	</div>
+</div>
 
-        </div>
-    </div>
+<script>
+ 	function navegar_form_para_table_aluno(){
+		$('.form_aluno').hide()
+		$('.table_aluno').show()
+	}
+	function salva_aluno(){
+		
+		$('#btn_salvar_aluno').hide()
+		$('#btn_salvando_aluno').show()
+		
+		
+		var input_aluno = document.querySelectorAll('.input_aluno')
+		var obj_para_lancar = {}
+		
+		input_aluno.forEach((input) => {
+			obj_para_lancar[input.name] = input.value
+		})
+		
+		
+		$.ajax({
+			url: '/salvar_aluno',
+			type: 'POST',
+			data: JSON.stringify(obj_para_lancar),
+			contentType: "application/json",
+			dataType: "json",
+		}).done(function (data){
+			$('#btn_salvar_aluno').show()
+			$('#btn_salvando_aluno').hide()
+			
+			$('#alert').modal('show')
+			$('#alert_body').html(`
+				<button class="btn btn-success w-100">
+					Salvo com Sucesso!
+				</button>
+			`)
+			
+			setTimeout(function (){
+				$('#alert').modal('hide')
+				navegar_form_para_table_aluno()
+				gera_table_aluno()
+			}, 2000)
+			
+			
+			
+		})
+		  
 
-    <script>
-    function salvaAluno() {
-        $('#btn_salvar_aluno').hide();
-        $('#btn_salvando_aluno').show();
-
-        var inputAluno = document.querySelectorAll('.input_aluno');
-        var objParaLancar = {};
-
-        inputAluno.forEach((input) => {
-            objParaLancar[input.name] = input.value;
-        });
-
-        $.ajax({
-            url: '/salvar_aluno',
-            type: 'POST',
-            data: JSON.stringify(objParaLancar),
-            contentType: "application/json",
-            dataType: "json"
-        }).done(function(data) {
-            $('#btn_salvar_aluno').show();
-            $('#btn_salvando_aluno').hide();
-            // Adicione aqui a lógica para o que acontece após o sucesso do salvamento, se necessário
-        });
-    }
+	}
 </script>

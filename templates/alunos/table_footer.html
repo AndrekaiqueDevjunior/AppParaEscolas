@@ -1,46 +1,41 @@
-<div class='row h-75 mt-2' >
+<div class='row h-75 mt-2'>
 	<div class='col'>
 		<button class='
-					btn 
+					btn
 					btn-outline-secondary
 					h-100
 					w-100
 				'>
-			Inicio
+			Início
 		</button>
-	
-	</div>	
+	</div>
 	<div class='col'></div>
 	<div class='col'>
 		<button class='
-				btn 
-				btn-outline-primary
-				h-100
-				w-100
-			'
-			onclick='navegar_table_para_form_aluno()'
-			>
-				Novo
+			btn
+			btn-outline-primary
+			h-100
+			w-100
+		'
+		onclick='navegar_table_para_form_aluno()'
+		>
+			Novo
 		</button>
 	</div>
 </div>
-
 <script>
 	function navegar_table_para_form_aluno(){
-	
 		$('.form_aluno').show()
 		$('.table_aluno').hide()
-	
+		
 		$('#main').scrollTop(0)
-	
+		
 		
 		document
 			.querySelectorAll('.input_aluno')
 			.forEach((item) => {
 				item.value = ''
-			
 			})
+		
 	}
-
-
 </script>

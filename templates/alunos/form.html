@@ -1,183 +1,205 @@
-<div class='row sticky_element bg-white pt-2 mt-2 mb-2'>
-    <div class='col'>
-        <h1>Formulário do Aluno</h1>
-    </div>
+<div class='row sticky_element bg-white pt-2 pb-2 mt-2 mb-2'>
+	<div class='col'>
+		<h1>
+			Formulário do Aluno
+		</h1>
+	</div>
 </div>
-
 <div class='row mt-1'>
-    <div class='col-10'>
-        <h5>
+	<div class='col-10'>
+		<h5>
 			Dados Gerais
 		</h5>
-    </div>
+	</div>
 	<div class='col-2'>
-	<button class = "btn btn-danger w-100 " >
-	<i class="bi bi-trash"></i>
-	
+		<button
+			class="btn btn-danger w-100"
+			onclick="$('#msg_confirmacao').modal('show')"
+		>
+			<i class="bi bi-trash"></i>
+		</button>
+		
 	</div>
 </div>
 
 <div class='row border-top'>
-    <div class='col'>
-        &nbsp;
-    </div>
+	<div class='col'>
+		&nbsp;
+	</div>
 </div>
 
-<div id='form_aluno_parte1'></div>
+<div id='form_aluno_parte_1'></div>
 
 <div class='row mt-2'>
-    <div class='col'>
-        <h5>Endereço</h5>
-    </div>
+	<div class='col'>
+		<h5>
+			Endereço
+		</h5>
+	</div>
 </div>
-
 <div class='row border-top'>
-    <div class='col'>
-        &nbsp;
-    </div>
+	<div class='col'>
+		&nbsp;
+	</div>
 </div>
-
-<div id='form_aluno_parte2'></div>
-
-	<div class='row border-top'>
-		<div class='col'>
-			&nbsp;
-			</div>
-		</div>		
+<div id='form_aluno_parte_2'></div>
+<div class='row'>
+	<div class='col'>
+		&nbsp;
+	</div>
+</div>
 
 <div class="modal" id='msg_confirmacao' tabindex="-1">
-	<div class="modal-dialog modal-dialog-centered">
-		<div class="modal-content">
-			<div class="modal-body" id='msg_confirmacao_body'>
-				<div class="row">
-					<div class="col">
-						<p>  </p>
-					</div>
-				<div class="row"
-				
-				
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-body" id='msg_confirmacao_body'>
+		<div class="row">
+			<div class="col">
+				<p>Tem certeza que deseja excluir este registro ?</p>
 			</div>
 		</div>
-	</div>
+		<div class="row">
+			<div class="col-4">
+				<button
+					class="btn btn-light w-100"
+					onclick="$('#msg_confirmacao').modal('hide')"
+				>
+					Cancelar
+				</button>
+			</div>
+			<div class="col-4"></div>
+			<div class="col-4">
+				<button
+						onclick='excluir_aluno()'
+						class="btn btn-primary w-100">
+					Sim
+				</button>
+			</div>
+		</div>        
+      </div>
+    </div>
+  </div>
 </div>
-
-
-
-
+<script>
+	
+	function excluir_aluno(){
+		var id_para_excluir = ''
+		document
+			.querySelectorAll('.input_aluno')
+			.forEach((item) => {
+			if(item.name == 'id'){
+				id_para_excluir = item.value
+			}
+		})
+		
+		
+		$.ajax({
+			url: '/exclui_aluno',
+			type: 'POST',
+			data: JSON.stringify({id: id_para_excluir}),
+			contentType: "application/json",
+			dataType: "json",
+		}).done(function (data){
+			console.log(data)
+		})
+	}
+</script>
 
 <div class="modal" id='alert' tabindex="-1">
-	<div class="modal-dialog modal-dialog-centered">
-		<div class="modal-content">
-			<div class="modal-body" id='alert_body'>
-
-			</div>
-		</div>
-	</div>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-body" id='alert_body'>
+        
+      </div>
+    </div>
+  </div>
 </div>
 
-	
-
-
-
 <script>
-    $(document).ready(function () {
-        var meus_inputs_parte1 = [
-            { 
-                label_innerHTML: 'ID',
-                type: 'number',
-                name: 'id',
-				input_class: 'input_aluno'
-            },
-            { 
-                label_innerHTML: 'Nome',
-                type: 'text',
-                name: 'nome',
-				input_class: 'input_aluno'
-            },
-            { 
-                label_innerHTML: 'Sobrenome',
-                type: 'text',
-                name: 'sobre_nome',
-				input_class: 'input_aluno'
-            },
-            { 
-                label_innerHTML: 'Nome do Pai', 
-                type: 'text',
-                name: 'nome_do_pai',
-				input_class: 'input_aluno'
-            },
-            { 
-                label_innerHTML: 'Nome da Mãe',
-                type: 'text',
-                name: 'nome_da_mae',
-				input_class: 'input_aluno'
-            },
-            { 
-                label_innerHTML: 'Data de Nascimento',
-                type: 'date',
-                name: 'data_de_nascimento',
-				input_class: 'input_aluno'
-            },
-            { 
-                label_innerHTML: 'Telefone',
-                type: 'text',
-                name: 'telefone',
-				input_class: 'input_aluno'
-            },
-            { 
-                label_innerHTML: 'CPF',
-                type: 'text',
-                name: 'cpf',
-				input_class: 'input_aluno'
-            }
-        ];
 
-        meus_inputs_parte1.forEach(function(item) {
-            gera_input(item, '#form_aluno_parte1');
-        });
-
-        var meus_inputs_parte2 = [
-            { 
-                label_innerHTML: 'Logradouro',
-                type: 'text',
-                name: 'logradouro',
+	
+	$( document ).ready(function() {
+		var meus_inputs = [{
+				label_innerHTML: 'ID',
+				type: 'number',
+				name: 'id',
 				input_class: 'input_aluno'
-            },
-            { 
-                label_innerHTML: 'Rua',
-                type: 'text',
-                name: 'rua',
+			},{
+				label_innerHTML: 'Nome',
+				type: 'text',
+				name: 'nome',
 				input_class: 'input_aluno'
-            },
-            { 
-                label_innerHTML: 'Bairro',
-                type: 'text',
-                name: 'bairro',
+			},{
+				label_innerHTML: 'Sobrenome',
+				type: 'text',
+				name: 'sobre_nome',
 				input_class: 'input_aluno'
-            },
-            { 
-                label_innerHTML: 'Cidade',
-                type: 'text',
-                name: 'cidade',
+			},{
+				label_innerHTML: 'Nome do Pai',
+				type: 'text',
+				name: 'nome_do_pai',
 				input_class: 'input_aluno'
-            },
-            { 
-                label_innerHTML: 'Estado',
-                type: 'text',
-                name: 'estado',
+			},{
+				label_innerHTML: 'Nome da Mãe',
+				type: 'text',
+				name: 'nome_da_mae',
 				input_class: 'input_aluno'
-            },
-            { 
-                label_innerHTML: 'CEP',
-                type: 'text',
-                name: 'cep',
+			},{
+				label_innerHTML: 'Data de Nascimento',
+				type: 'date',
+				name: 'data_de_nascimento',
 				input_class: 'input_aluno'
-            }
-        ];
-
-        meus_inputs_parte2.forEach(function(item) {
-            gera_input(item, '#form_aluno_parte2');
-        });
-
-    });
+			}, {
+				label_innerHTML: 'Telefone',
+				type: 'text',
+				name: 'telefone',
+				input_class: 'input_aluno'
+			}, {
+				label_innerHTML: 'CPF',
+				type: 'text',
+				name: 'cpf',
+				input_class: 'input_aluno'
+			}
+			]
+		
+		meus_inputs.forEach((item)=>{
+			gera_input(item, '#form_aluno_parte_1')
+		})
+		
+		var meus_inputs = [{
+				label_innerHTML: 'Logradouro',
+				type: 'text',
+				name: 'logradouro',
+				input_class: 'input_aluno'
+			},{
+				label_innerHTML: 'Rua',
+				type: 'text',
+				name: 'rua',
+				input_class: 'input_aluno'
+			},{
+				label_innerHTML: 'Bairro',
+				type: 'text',
+				name: 'bairro',
+				input_class: 'input_aluno'
+			},{
+				label_innerHTML: 'Cidade',
+				type: 'text',
+				name:'cidade',
+				input_class: 'input_aluno'
+			},{
+				label_innerHTML: 'Estado',
+				type: 'text',
+				name: 'estado',
+				input_class: 'input_aluno'
+			},{
+				label_innerHTML: 'CEP',
+				type: 'text',
+				name: 'cep',
+				input_class: 'input_aluno'
+			}]
+		
+		meus_inputs.forEach((item)=>{
+			gera_input(item, '#form_aluno_parte_2')
+		})
+	})	
 </script>
