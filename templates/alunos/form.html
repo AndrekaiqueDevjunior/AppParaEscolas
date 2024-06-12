@@ -14,11 +14,10 @@
 	<div class='col-2'>
 		<button
 			class="btn btn-danger w-100"
-			onclick="$('#msg_confirmacao').modal('show')"
+			onclick="abre_msg_confirmacao(document.querySelectorAll('.input_aluno')[0].value)"
 		>
 			<i class="bi bi-trash"></i>
-		</button>
-		
+		</button>		
 	</div>
 </div>
 
@@ -49,91 +48,13 @@
 	</div>
 </div>
 
-<div class="modal" id='msg_confirmacao' tabindex="-1">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-body" id='msg_confirmacao_body'>
-		<div class="row">
-			<div class="col">
-				<p>Tem certeza que deseja excluir este registro ?</p>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-4">
-				<button
-					class="btn btn-light w-100"
-					onclick="$('#msg_confirmacao').modal('hide')"
-				>
-					Cancelar
-				</button>
-			</div>
-			<div class="col-4"></div>
-			<div class="col-4">
-				<button
-						onclick='excluir_aluno()'
-						class="btn btn-primary w-100">
-					Sim
-				</button>
-			</div>
-		</div>        
-      </div>
-    </div>
-  </div>
-</div>
+
 <script>
 	
-	function excluir_aluno(){
-		var id_para_excluir = ''
-		document
-			.querySelectorAll('.input_aluno')
-			.forEach((item) => {
-			if(item.name == 'id'){
-				id_para_excluir = item.value
-			}
-		})
-		
-		//1
-		$.ajax({
-			url: '/exclui_aluno',
-			type: 'POST',
-			data: JSON.stringify({id: id_para_excluir}),
-			contentType: "application/json",
-			dataType: "json",
-		}).done(function (data){
-			$('#msg_confirmacao').modal('hide')
-			
-			$('#alert').modal('show')
-			$('#alert_body').html(`
-				<button class="btn btn-success w-100" >
-					Excluido com Sucesso!
-				</button>
-			`)
-			
-			setTimeout(function (){
-				$('#alert').modal('hide')
-				navegar_form_para_table_aluno()
-				gera_table_aluno()
-			}, 2000)
-			
-			
-			
-			
-		})
-		
-		//2
-		
-	}
+
 </script>
 
-<div class="modal" id='alert' tabindex="-1">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-body" id='alert_body'>
-        
-      </div>
-    </div>
-  </div>
-</div>
+
 
 <script>
 
@@ -150,20 +71,20 @@
 				type: 'text',
 				name: 'nome',
 				required: true,
-				func_onInput: (e) => tira_is_invalid(e),
+				func_oninput: (e) => tira_is_invalid(e),
 				input_class: 'input_aluno'
 			},{
 				label_innerHTML: 'Sobrenome',
 				type: 'text',
-				name: 'sobre_nome',
 				required: true,
-				func_onInput: (e) => tira_is_invalid(e),
+				func_oninput: (e) => tira_is_invalid(e),
+				name: 'sobre_nome',
 				input_class: 'input_aluno'
 			},{
 				label_innerHTML: 'Nome do Pai',
 				type: 'text',
 				required: true,
-				func_onInput: (e) => tira_is_invalid(e),
+				func_oninput: (e) => tira_is_invalid(e),
 				name: 'nome_do_pai',
 				input_class: 'input_aluno'
 			},{
@@ -202,37 +123,13 @@
 					'rua',
 					'avenida',
 					'travessa',
-					'quadra',
-					'distrito',
-					'rodovia',
-					'servidao',
-					'aeroporto', 
-					'alameda',
-					'area',
-					'distrito',
-					'ladeira', 
-					'lago', 
-					'lagoa', 
-					'largo', 
-					'loteamento'
+					'servidao'
 				],
 				opt_arr_innerHTML: [
 					'Rua',
 					'Avenida',
 					'Travessa',
-					'Quadra',
-					'Distrito',
-					'Rodovia',
-					'Servidao',
-					'Aeroporto', 
-					'Alameda',
-					'Area',
-					'Distrito',
-					'Ladeira', 
-					'Lago', 
-					'Lagoa', 
-					'Largo', 
-					'Loteamento'
+					'Servidão'
 				]
 			},{
 				label_innerHTML: 'Rua',

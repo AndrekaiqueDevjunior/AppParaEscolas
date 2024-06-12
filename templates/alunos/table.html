@@ -128,26 +128,26 @@
 				
 				// var td = document.createElement('div')
 				tr.style.borderRadius = '15px'
-				var string_celula = "Nome: " + item[1]
+				var string_celula = "Nome:" + item[1]
 				string_celula += "<br>"
-				string_celula += "Sobrenome: " + item[2]
+				string_celula += "Sobrenome:" + item[2]
 				string_celula += "<br>"
-				string_celula += "CPF: " + item[7]
+				string_celula += "CPF:" + item[7]
 				string_celula += "<br>"
+				
 				string_celula += `
-						<div class='text-end'>
-							<button
-									class="btn btn-outline-danger"
-									onclick="$('#msg_confirmacao').modal('show')"
-								>
-								<i class="bi bi-trash"></i>
-							</button>
-					
-						<button onclick="alterar_aluno('` + item[0] + `')" class="btn btn-outline-primary"><i class="bi bi-pencil-square"></i>
-						
+					<div class='text-end'>
+						<button
+							class="btn btn-outline-danger"
+							onclick="abre_msg_confirmacao('` + item[0] + `')"
+						>
+							<i class="bi bi-trash"></i>
+						</button>	
+
+						<button onclick="alterar_aluno('` + item[0] + `')" class="btn btn-outline-primary">
+							<i class="bi bi-pencil-square"></i>
 						</button>
-		
-					
+
 					</div>
 					`
 				
