@@ -6,8 +6,7 @@ app = Flask(__name__)
 @app.route("/")
 def index():
     return render_template('index.html')
-
-@app.route("/salvar_aluno", methods=['POST'])
+@app.route("/salvar_aluno", methods=['POST']) ##SAVE 
 def salvar_aluno():
     dict = request.get_json()
             
@@ -92,7 +91,7 @@ def salvar_aluno():
     conn.close()
     return jsonify(retorno="Sucesso")
   
-@app.route("/ler_todos_alunos", methods=['POST'])
+@app.route("/ler_todos_alunos", methods=['POST']) ##READ
 def ler_todos_alunos():
     conn = sqlite3.connect('banco_de_dados/banco_de_dados.db')
     cursor = conn.cursor()
@@ -105,7 +104,7 @@ def ler_todos_alunos():
     conn.close()
     return jsonify(dados=dados)
 
-@app.route("/exclui_aluno", methods=['POST'])
+@app.route("/exclui_aluno", methods=['POST'])  ###DELETE 
 def exclui_aluno():
     dict = request.get_json()
     conn = sqlite3.connect('banco_de_dados/banco_de_dados.db')
@@ -117,7 +116,7 @@ def exclui_aluno():
     conn.close()
     return jsonify(x=0)
 
-@app.route("/ler_aluno_especifico", methods=['POST'])
+@app.route("/ler_aluno_especifico", methods=['POST']) ##READ 
 def ler_aluno_especifico():
     dict = request.get_json()
     conn = sqlite3.connect('banco_de_dados/banco_de_dados.db')

@@ -6,6 +6,11 @@
 		<div class='col table_aluno'>
 			{% include 'alunos/table.html' %}
 		</div>
+		<div>
+			{% include 'multiuso/alert.html' %}
+			{% include 'multiuso/confirma_exclusao.html' %}
+		
+		</div>
 		<div class="modal" id='msg_confirmacao' tabindex="-1">
 			<input type="hidden" id="msg_confirmacao_argumento" />
 			<div class="modal-dialog modal-dialog-centered">
@@ -63,7 +68,7 @@
 					}).done(function (data){
 						$('#msg_confirmacao').modal('hide')
 						$('#msg_confirmacao_argumento').val('')
-						gera_table_aluno()
+							gera_table_aluno()
 						$('#alert').modal('show')
 						$('#alert_body').html(`
 							<button class="btn btn-success w-100">
