@@ -6,10 +6,21 @@ app = Flask(__name__)
 @app.route("/")
 def index():
     return render_template('index.html')
+
+
+@app.before_request
+def before_request():
+    print("Antes")
+
+@app.after_request
+def after_request(response):
+    print("Depois")
+    return response
+
 @app.route("/salvar_aluno", methods=['POST']) ##SAVE 
 def salvar_aluno():
     dict = request.get_json()
-            
+       
     conn = sqlite3.connect('banco_de_dados/banco_de_dados.db')
     cursor = conn.cursor()
     
