@@ -1,5 +1,4 @@
-from flask import Flask, render_template, request, jsonify
-import sqlite3
+from flask import Flask, render_template, request, jsonify, redirect, url_for
 
 app = Flask(__name__)
 
@@ -102,6 +101,15 @@ def salvar_aluno():
     conn.close()
     return jsonify(retorno="Sucesso")
   
+  
+@app.route("/upload", methods=['POST']) 
+def upload():
+    uploaded_file = request.files['file']
+    if uploaded_file.filename != '':
+        uploaded_file.save('/static/img/' + uploaded_file.filename)
+        
+        return render_template('index.html')
+        
 @app.route("/ler_todos_alunos", methods=['POST']) ##READ
 def ler_todos_alunos():
     conn = sqlite3.connect('banco_de_dados/banco_de_dados.db')

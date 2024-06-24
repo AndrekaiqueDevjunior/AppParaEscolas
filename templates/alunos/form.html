@@ -27,11 +27,22 @@
 	</div>
 </div>
 
+
 <div class='row border-top'>
 	<div class='col'>
 		&nbsp;
 	</div>
 </div>
+
+<div class="row">
+	<div class="col">
+	<form method="POST" action="/upload" enctype="multipart/form-data">
+		</p> <input type="file" name="file"/> </p> 
+		</p> <input type="submit" value="Submit"/> </p> 
+	</form>
+	</div>
+</div>
+
 
 <div id='form_aluno_parte_1'></div>
 
@@ -59,7 +70,14 @@
 
 	
 	$( document ).ready(function() {
-		var meus_inputs = [{
+		var meus_inputs = [
+			{
+				label_innerHTML: 'Foto do Aluno',
+				type: 'file',
+				name: 'foto',				
+				input_class: 'input_aluno'
+			},
+			{
 				label_innerHTML: 'ID',
 				type: 'number',
 				name: 'id',
