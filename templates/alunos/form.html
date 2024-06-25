@@ -33,17 +33,38 @@
 		&nbsp;
 	</div>
 </div>
-
-<div class="row">
+<div class="row" style="display: none;">
 	<div class="col">
-	<form method="POST" action="/upload" enctype="multipart/form-data">
-		</p> <input type="file" name="file"/> </p> 
-		</p> <input type="submit" value="Submit"/> </p> 
-	</form>
+		<form method="POST" action="/upload" enctype="multipart/form-data">
+			<input type="text" name="id_do_aluno" id="id_do_aluno" />
+			<p><input type="file" name="file" id="input_file" onchange="ao_subir_a_foto()" /></p>
+			<p><input type="submit" id="envia_foto"  value="Submit"></p>
+		</form>
 	</div>
 </div>
 
+<div class="row">
+	<div class="col">
+		<button class="btn btn-outline-primary" onclick="fake_click()">Upload da Foto</button>
+	</div>
+</div>
 
+<div class="row mt-3 mb-3">
+	<div class="col">
+		<img id="recebe_foto" style="width: 200px">
+		<label id="msg_recebe_foto" class="form-control">Nenhuma foto associada</label>
+	</div>
+</div>
+
+<script>
+	function fake_click(){
+		document.getElementById('input_file').click()
+	}
+	function ao_subir_a_foto(){
+		document.getElementById('id_do_aluno').value = document.getElementsByName('id')[0].value
+		document.getElementById('envia_foto').click()
+	}
+</script>
 <div id='form_aluno_parte_1'></div>
 
 <div class='row mt-2'>
@@ -71,12 +92,6 @@
 	
 	$( document ).ready(function() {
 		var meus_inputs = [
-			{
-				label_innerHTML: 'Foto do Aluno',
-				type: 'file',
-				name: 'foto',				
-				input_class: 'input_aluno'
-			},
 			{
 				label_innerHTML: 'ID',
 				type: 'number',
