@@ -1,26 +1,76 @@
-<div class='col'>
-			<div class ='row mt-3'>
-				<div class ='col'>
-					<button class= 'w-100 p-4'>Alunos</button>
-				</div>
-				<div class ='col'>
-					<button class= 'w-100 p-4'>Turmas</button>
-				</div>
-			</div>
-			<div class ='row mt-3'>
-				<div class ='col'>
-					<button class= 'w-100 p-4'>Séries</button>
-				</div>
-				<div class ='col'>
-					<button class= 'w-100 p-4'>Turnos</button>
-				</div>
-			</div>
-			<div class ='row mt-3'>
-				<div class ='col'>
-					<button class= 'w-100 p-4'>Chamada</button>
-				</div>
-				<div class ='col'>
-					<button class= 'w-100 p-4'>Boletim</button>
-				</div>
-			</div>
-	</div>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página Inicial - Flask App</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ffffff;
+        }
+        .custom-container {
+            padding: 20px;
+        }
+        .custom-button {
+            width: 100%;
+            padding: 1rem;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body> 
+
+  
+    <nav class="navbar navbar-light bg-light">
+        <form class="form-inline">
+          <input class="form-control mr-sm-2" type="search" placeholder="Pesquisar" aria-label="Pesquisar">
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Pesquisar</button>
+        </form>
+      </nav>
+
+
+    <div class="container custom-container">
+        {% if 'user_id' in session %}
+            <p class="welcome-message">Olá, {{ session["username"] }}, <br> Seja bem-vindo novamente!</p>
+            <div class="container custom-container">
+                <div class="row mt-3">
+                    <div class="col">
+                        <button class="btn btn-primary custom-button">Alunos
+                            
+                        </button>
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-primary custom-button">Turmas</button>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col">
+                        <button class="btn btn-primary custom-button">Séries</button>
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-primary custom-button">Turnos</button>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col">
+                        <button class="btn btn-primary custom-button">Chamada</button>
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-primary custom-button">Boletim</button>
+                    </div>
+                </div>
+            </div>
+            <div class="buttons mt-4">
+                <a href="/logout" class="btn btn-danger custom-button">Logout    <i class="bi bi-arrow-left-circle-fill"></i></a>
+                <a href="/usuarios" class="btn btn-info custom-button">Ver Usuários <i class="bi bi-people-fill"></i></a>
+            </div>
+        {% else %}
+            <p><a href="/login" class="btn btn-primary">Login</a></p>
+        {% endif %}
+    </div>
+</body>
+</html>
