@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Bem-vindo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0 10px 0;
+            box-sizing: border-box;
+        }
+
+        button[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        button[type="submit"] i {
+            margin-left: 10px;
+        }
+
+        p {
+            text-align: center;
+        }
+
+        p a {
+            text-decoration: none;
+            color: #4CAF50;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        ul li {
+            background-color: #f2f2f2;
+            padding: 10px;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/login">Inicio</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                    <a class="nav-link" href="/professores/new">Central do Professor</a>
+                    <a class="nav-link" href="/usuarios/new">Central do Aluno</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <h1>Login: Aluno</h1>
+    <form action="/login" method="post">
+        <label for="tipo_usuario">Escolha:</label>
+        <select id="tipo_usuario" name="tipo_usuario" onchange="redirecionarPagina()">
+            <option value="">Selecione...</option>
+            <option value="professor">Professor</option>
+        </select><br><br>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required><br>
+        <label for="senha">Senha:</label>
+        <input type="password" id="senha" name="senha" required><br>
+        <button type="submit">Login <i class="bi bi-box-arrow-in-left"></i></button>
+    </form>
+    <p>Não tem uma conta? <a href="/usuarios/new">Crie uma conta</a></p>
+    <p>Você é Aluno? <a href="/usuarios/new">Clique aqui</a></p>
+    <p>Você é Professor? <a href="/professores/new">Clique aqui</a></p>
+
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <ul>
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/redirecionardeAlunoParaProfessor.js') }}"></script>
+<!--
+    <script>
+        function redirecionarPagina() {
+            var selecionado = document.getElementById("tipo_usuario").value;
+            if (selecionado === "aluno") {
+                window.location.href = "/aluno";
+            } else if (selecionado === "professor") {
+                window.location.href = "/professor";
+            } else if (selecionado === "") {
+                window.location.href = "/";
+            }
+        }
+    </script>
+
+    -->
+</body>
+</html>
