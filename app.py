@@ -1,116 +1,84 @@
-from flask import Flask, render_template, request, jsonify, g, redirect, url_for, send_from_directory
+from flask import Flask, render_template, request, jsonify, g, redirect, url_for, send_from_directory, session, flash
 import sqlite3
 import os
 
 app = Flask(__name__)
+app.secret_key = 'your_secret_key'  # Necessário para usar sessões e mensagens flash
 app.config['UPLOAD_PATH'] = 'uploads'
+DATABASE = 'banco_de_dados/banco_de_dados.db'
 
-@app.route("/")
-def index():
-    return render_template('index.html')
+def get_db():
+    if 'db' not in g:
+        g.db = sqlite3.connect(DATABASE)
+    return g.db
 
 @app.before_request
 def before_request():
-    g.conn = sqlite3.connect('banco_de_dados/banco_de_dados.db')
-    g.cursor = g.conn.cursor()
-
-    print("Antes")
+    g.db = get_db()
+    g.cursor = g.db.cursor()
 
 @app.after_request
 def after_request(response):
-    print("Depois")
-    g.conn.commit()
-    g.conn.close()
+    db = getattr(g, 'db', None)
+    if db is not None:
+        db.commit()
+        db.close()
     return response
+
+@app.route("/")
+def login_usuario():
+    return render_template('login_usuario/logar_usuario.html')
+
+@app.route("/index")
+def index():
+    if 'user_id' not in session:
+        return redirect(url_for('login_usuario'))
+    return render_template('index.html')
+
+@app.route("/cadastro")
+def criar_aluno():
+    return render_template('criar_aluno/criar_usuario.html')
+
+@app.route("/autenticar_usuario", methods=['POST'])
+def autenticar_usuario():
+    email = request.form['email']
+    senha = request.form['senha']
+    
+    SQL = """ SELECT id FROM usuarios WHERE email=? AND senha=? """
+    g.cursor.execute(SQL, (email, senha))
+    user = g.cursor.fetchone()
+    
+    if user:
+        session['user_id'] = user[0]
+        return redirect(url_for('index'))
+    else:
+        flash('Email ou senha incorretos.')
+        return redirect(url_for('login_usuario'))
+
+@app.route("/logout")
+def logout():
+    session.pop('user_id', None)
+    return redirect(url_for('login_usuario'))
 
 @app.route("/salvar_aluno", methods=['POST'])
 def salvar_aluno():
-    dict = request.get_json()
-            
-    # conn = sqlite3.connect('banco_de_dados/banco_de_dados.db')
-    # cursor = conn.cursor()
+    nome = request.form['nome']
+    sobrenome = request.form['sobrenome']
+    email = request.form['email']
+    senha = request.form['senha']
     
-    ## Quando é Alterar tem ID
-    ## Quando é Inserir não ID
-    if dict['id'] == '':        
-        SQL = """ INSERT INTO
-            alunos (
-                nome,
-                sobre_nome,
-                nome_do_pai,
-                nome_da_mae,
-                data_de_nascimento,
-                telefone,
-                cpf,
-                logradouro,
-                rua,
-                bairro,
-                cidade,
-                estado,
-                cep            
-            ) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?);"""
-        
-        g.cursor.execute(SQL,
-            (
-                dict['nome'],
-                dict['sobre_nome'],
-                dict['nome_do_pai'],
-                dict['nome_da_mae'],
-                dict['data_de_nascimento'],
-                dict['telefone'],
-                dict['cpf'],
-                dict['logradouro'],
-                dict['rua'],
-                dict['bairro'],
-                dict['cidade'],
-                dict['estado'],
-                dict['cep'],
-            )
-        )
-    else:
-        SQL = """ UPDATE alunos 
-                SET
-                    nome = ?,
-                    sobre_nome = ?,
-                    nome_do_pai = ?,
-                    nome_da_mae = ?,
-                    data_de_nascimento = ?,
-                    telefone = ?,
-                    cpf = ?,
-                    logradouro = ?,
-                    rua = ?,
-                    bairro = ?,
-                    cidade = ?,
-                    estado = ?,
-                    cep = ?         
-                WHERE id = ?;"""
-        g.cursor.execute(SQL,
-            (
-                dict['nome'],
-                dict['sobre_nome'],
-                dict['nome_do_pai'],
-                dict['nome_da_mae'],
-                dict['data_de_nascimento'],
-                dict['telefone'],
-                dict['cpf'],
-                dict['logradouro'],
-                dict['rua'],
-                dict['bairro'],
-                dict['cidade'],
-                dict['estado'],
-                dict['cep'],
-                dict['id'],
-            )
-        )
-        
+    try:
+        SQL = """ INSERT INTO usuarios (nome, sobrenome, email, senha) VALUES (?, ?, ?, ?); """
+        g.cursor.execute(SQL, (nome, sobrenome, email, senha))
+        flash('Usuário cadastrado com sucesso!')
+    except sqlite3.IntegrityError:
+        flash('O email fornecido já está em uso.')
     
-    # conn.commit()
-    # conn.close()
-    return jsonify(retorno="Sucesso")
-  
+    return redirect(url_for('login_usuario'))
+
 @app.route("/atualiza_foto", methods=['POST'])
 def atualiza_foto():
-    print(request.form['id_do_aluno'] )
+    print(request.form['id_do_aluno'])
     uploaded_file = request.files['file']
     if uploaded_file.filename != '':
         uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'], request.form['id_do_aluno'] + '.png'))
@@ -119,47 +87,29 @@ def atualiza_foto():
 
 @app.route("/ler_todos_alunos", methods=['POST'])
 def ler_todos_alunos():
-    # conn = sqlite3.connect('banco_de_dados/banco_de_dados.db')
-    # cursor = conn.cursor()
     SQL = """ SELECT * FROM alunos;"""
-    
     g.cursor.execute(SQL)
     dados = g.cursor.fetchall()
-    
-    # conn.close()
     return jsonify(dados=dados)
 
 @app.route("/exclui_aluno", methods=['POST'])
 def exclui_aluno():
-    dict = request.get_json()
-
-    # conn = sqlite3.connect('banco_de_dados/banco_de_dados.db')
-    # cursor = conn.cursor()
-    SQL = """ DELETE FROM alunos WHERE id=""" + str(dict['id']) + """;"""
-
-    g.cursor.execute(SQL)
-    
-    # conn.commit()
-    # conn.close()
+    data = request.get_json()
+    SQL = """ DELETE FROM alunos WHERE id=?;"""
+    g.cursor.execute(SQL, (data['id'],))
     return jsonify(x=0)
 
 @app.route("/ler_aluno_especifico", methods=['POST'])
 def ler_aluno_especifico():
-    dict = request.get_json()
-
-    # conn = sqlite3.connect('banco_de_dados/banco_de_dados.db')
-    # cursor = conn.cursor()
-
-    SQL = """ SELECT * FROM alunos WHERE id=""" + str(dict['id']) + """;"""
-    g.cursor.execute(SQL)
+    data = request.get_json()
+    SQL = """ SELECT * FROM alunos WHERE id=?;"""
+    g.cursor.execute(SQL, (data['id'],))
     dados = g.cursor.fetchall()
     
     SQL = """ PRAGMA table_info(alunos);"""
     g.cursor.execute(SQL)
     cabecalho = g.cursor.fetchall()
-    
         
-    # conn.close()
     return jsonify(
         dados=dados,
         cabecalho=cabecalho
@@ -169,4 +119,5 @@ def ler_aluno_especifico():
 def upload(filename):
     return send_from_directory(app.config['UPLOAD_PATH'], filename)
 
-app.run(debug=True, host='0.0.0.0')
+if __name__ == '__main__':
+    app.run(debug=True, host='0.0.0.0')
