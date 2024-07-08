@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página Inicial - Flask App</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ffffff;
+        }
+        .custom-container {
+            padding: 20px;
+        }
+        .custom-button {
+            width: 100%;
+            padding: 1rem;
+            margin-bottom: 10px;
+        }
+        .welcome-message {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body> 
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Flask App</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Inicio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Ajuda</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Contatos</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container-fluid custom-container">
+        {% if 'user_id' in session %}
+            <p class="welcome-message">Olá, {{ session["username"] }}, <br> Seja bem-vindo novamente!</p>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-3 col-md-6">
+                        <button class="btn btn-primary custom-button">Alunos</button>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <button class="btn btn-primary custom-button">Turmas</button>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <button class="btn btn-primary custom-button">Séries</button>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <button class="btn btn-primary custom-button">Turnos</button>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <button class="btn btn-primary custom-button">Chamada</button>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <button class="btn btn-primary custom-button">Boletim</button>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-4">
+                <a href="/logout" class="btn btn-danger custom-button">Logout    <i class="bi bi-arrow-left-circle-fill"></i></a>
+                <a href="/usuarios" class="btn btn-info custom-button">Ver Usuários <i class="bi bi-people-fill"></i></a>
+            </div>
+        {% else %}
+            <p><a href="/login" class="btn btn-primary">Login</a></p>
+        {% endif %}
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listagem de Alunos</title>
+</head>
+<body>
+    <h1>Listagem de Alunos</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>foto de perfil </th>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Email</th>
+                <th>Telefone</th>
+                <th>Formação Acadêmica</th>
+                <th>Áreas de Especialização</th>
+                <th>Número de Registro Profissional</th>
+                <th>Experiência Profissional</th>
+                <th>Foto de Perfil</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for aluno in alunos %}
+            <tr>
+                <td>{{ aluno[0] }}</td>
+                <td>{{ aluno[1] }}</td>
+                <td>{{ aluno[2] }}</td>
+                <td>{{ aluno[3] }}</td>
+                <td>{{ aluno[4] }}</td>
+                <td>{{ aluno[5] }}</td>
+                <td>{{ aluno[6] }}</td>
+                <td><a href="{{ url_for('upload', filename=aluno[7]) }}">Baixar</a></td>
+                <td><a href="{{ url_for('upload', filename=aluno[8]) }}">

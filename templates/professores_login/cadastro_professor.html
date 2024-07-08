@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Cadastro de Professor</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+   <!-- ESTILO CSS DA PAGINA DE LOGIN DO PROFESSOR -->
+   <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            max-width: 600px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+        }
+
+        button[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        button[type="submit"] i {
+            margin-left: 10px;
+        }
+
+        p {
+            text-align: center;
+        }
+
+        p a {
+            text-decoration: none;
+            color: #4CAF50;
+        }
+    </style>
+
+</head>
+
+
+<body>
+    <div class="container">
+        <h1 class="text-center">Cadastro de Professor</h1>
+        <form action="/professor/new" method="post">
+            <div class="form-group">
+                <label for="nome_completo">Nome Completo:</label>
+                <input type="text" id="nome_completo" name="nome_completo" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="senha">Senha:</label>
+                <input type="password" id="senha" name="senha" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="telefone">Telefone:</label>
+                <input type="text" id="telefone" name="telefone" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="formacao_academica">Formação Acadêmica:</label>
+                <input type="text" id="formacao_academica" name="formacao_academica" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="areas_especializacao">Áreas de Especialização:</label>
+                <input type="text" id="areas_especializacao" name="areas_especializacao" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="numero_registro_profissional">Número de Registro Profissional:</label>
+                <input type="text" id="numero_registro_profissional" name="numero_registro_profissional"
+                    class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="experiencia_profissional">Experiência Profissional:</label>
+                <input type="file" id="experiencia_profissional" name="experiencia_profissional" class="form-control-file" required>
+                <small class="form-text text-muted">Insira o documento em formato .PDF</small>
+            </div>
+            <div class="form-group">
+                <label for="foto_de_perfil">Foto de Perfil:</label>
+                <input type="file" id="foto_de_perfil" name="foto_de_perfil" class="form-control-file" required>
+                <small class="form-text text-muted">Insira o documento em formato .JPG .PNG .JPEG</small>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Cadastrar</button>
+        </form>
+        <p>Já tem uma conta? <a href="/professor">Faça login</a></p>
+    </div>
+</body>
+</html>

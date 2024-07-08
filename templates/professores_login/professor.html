@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
+
 <head>
     <title>Bem-vindo</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,19 +11,32 @@
             font-family: Arial, sans-serif;
             margin: 20px;
         }
+
         h1 {
             text-align: center;
         }
+
+        /* Estilo do formulário */
         form {
             max-width: 400px;
             margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
         }
-        input[type="email"], input[type="password"] {
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        select.form-control,
+        input[type="file"] {
             width: 100%;
             padding: 10px;
             margin: 5px 0 10px 0;
             box-sizing: border-box;
         }
+
         button[type="submit"] {
             width: 100%;
             padding: 10px;
@@ -35,91 +49,105 @@
             align-items: center;
             justify-content: center;
         }
+
         button[type="submit"] i {
             margin-left: 10px;
         }
+
         p {
             text-align: center;
+            margin-top: 10px;
         }
+
         p a {
             text-decoration: none;
             color: #4CAF50;
         }
+
         ul {
             list-style-type: none;
             padding: 0;
         }
+
         ul li {
             background-color: #f2f2f2;
             padding: 10px;
             margin-bottom: 5px;
         }
+
+        /* Centralizar a imagem */
+        .centralizar-imagem {
+            display: flex;
+            justify-content: center;
+        }
+
+        img {
+            max-width: 30%;
+            display: block;
+            margin: auto;
+        }
     </style>
 </head>
+
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
-            <a class="navbar-brand" href="/login">Inicio</a>
+            <a class="navbar-brand" href="/">Início</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
+                <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-              <div class="navbar-nav">
-                <a class="nav-link" href="/professores/new">Central do Professor</a>
-                <a class="nav-link" href="/usuarios/new">Central do Aluno</a>
-              </div>
+                <div class="navbar-nav">
+                    <a class="nav-link" href="/professor/new">Central do Professor</a>
+                    <a class="nav-link" href="/aluno/new">Central do Aluno</a>
+                </div>
             </div>
-          </div>
-      </nav>
+        </div>
+    </nav>
 
-    <h1>Login: Professor</h1>
-    <form action="/login" method="post">
-        <label for="tipo_usuario">Escolha:</label>
-        <select id="tipo_usuario" name="tipo_usuario" onchange="redirecionarPagina()">
-            <option value="">Selecione</option>
-            <option value="aluno">Aluno</option>
+    <div class="container mt-4">
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-sm-8">
+                <h1 class="text-center">Login: Professor</h1>
+                <div class="centralizar-imagem">
+                    <img src="{{ url_for('static', filename='img/professor_icon.png') }}" alt="Ícone do Professor">
+                </div>
+                <form action="/professores_login/menu_professor.html" method="post">
+                    <label for="tipo_usuario">Escolha:</label>
+                    <select id="tipo_usuario" name="tipo_usuario" onchange="redirecionardeProfessorParaAluno()" class="form-control">
+                        <option value="">Selecione</option>
+                        <option value="aluno">Aluno</option>
+                    </select><br><br>
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required class="form-control"><br>
+                    <label for="senha">Senha:</label>
+                    <input type="password" id="senha" name="senha" required class="form-control"><br>
+                    <label class="container">
+                        <input type="checkbox" id="rememberMe" onchange="ArmazenarLogineSenha()">
+                        <span class="checkmark"> Lembrar-me </span>
+                    </label><br>
+                    <button type="submit" class="btn btn-success">Login <i class="bi bi-box-arrow-in-left"></i></button><br><br>
+                    <p>Não tem uma conta? <a href="/professor/new">Crie uma conta</a></p>
+                </form>
 
-    <form action="/login" method="post">
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required><br>
-        <label for="senha">Senha:</label>
-        <input type="password" id="senha" name="senha" required><br>
-        <button type="submit">Login <i class="bi bi-box-arrow-in-left"></i></button>
-    </form>
-    
-    <p>Não tem uma conta? <a href="/usuarios/new">Crie uma conta</a></p>
-    <p>Você é Aluno? <a href="/usuarios/new">Clique aqui</a></p>
-    <p>Você é Professor? <a href="/professores/new">Clique aqui</a></p>
-    
-    {% with messages = get_flashed_messages() %}
-        {% if messages %}
-            <ul>
-                {% for message in messages %}
+                {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                <ul>
+                    {% for message in messages %}
                     <li>{{ message }}</li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-    {% endwith %}
-    
+                    {% endfor %}
+                </ul>
+                {% endif %}
+                {% endwith %}
+            </div>
+        </div>
+    </div>
+
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
     <script src="{{ url_for('static', filename='js/redirecionardeProfessorParaAluno.js') }}"></script>
-    
-    <!--
-    <script>
-
-function redirecionardeProfessorParaAluno() {
-    var selecionado = document.getElementById("tipo_usuario").value;
-    if (selecionado === "professor") {
-        window.location.href = "/professor";
-    } else if (selecionado === "aluno") {
-        window.location.href = "/aluno";
-    }
-} -->
-
-
-        </script>
 </body>
+
 </html>
